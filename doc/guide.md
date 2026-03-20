@@ -23,3 +23,28 @@ The project uses **Maven** for dependency management and build automation.
 *   **pom.xml:** Defines the project dependencies, including the Jakarta EE APIs and the Jersey implementation. It also specifies the packaging type as `war` (Web Application Archive), which is the standard format for deploying Java web applications.
 *   **web.xml:** The Deployment Descriptor. It tells the Servlet Container (Tomcat) how to initialize the application. By defining the `ServletContainer` and its mapping, it eliminates the need for a custom Java `Application` class.
 *   **Resource Classes:** Classes like `HelloResource.java` serve as the API endpoints. By using JAX-RS annotations, these classes define the URI paths and HTTP methods they respond to, allowing for a declarative style of programming.
+
+## 4. `PaolaRestApi:war` vs `PaolaRestApi:war exploded`
+The difference between `PaolaRestApi:war` and `PaolaRestApi:war exploded` comes down to how your project is packaged and how quickly you can see code changes during development.
+
+### `PaolaRestApi:war` (The Archive)
+**What it is:** A single, compressed `.war` (Web Application Archive) file. It is essentially a ZIP containing your entire application.
+
+**Best for:** Production or final testing.
+
+**Drawback:** Every time you change one line of code, the entire archive must be rebuilt and the server must unpack it again, which is slower.
+
+### `PaolaRestApi:war exploded` (The Folder)
+**What it is:** An uncompressed directory structure that looks like a deployed web app.
+
+**Best for:** Active development (Day 1). This is usually the best option while coding.
+
+**Advantage:** It allows partial updates ("hot swap"-style workflow). If you change a Java method or an HTML file, IntelliJ can update only the changed file, making restart/update cycles faster.
+
+### Comparison Table
+| Feature | `war` (Archive) | `war exploded` |
+|---|---|---|
+| Structure | Single compressed file | Uncompressed directory |
+| Deployment speed | Slower | Faster (partial updates) |
+| Typical use case | Final release / production | Daily coding / debugging |
+| IntelliJ location | Under **Artifacts** | Under **Artifacts** |
