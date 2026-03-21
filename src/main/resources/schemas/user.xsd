@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  XML validation contract for POST /api/users.
+  Purpose:
+  - Define which XML structure is accepted.
+  - Enforce required fields and basic field rules before persistence.
+  - Reject invalid XML payloads before mapping/saving to DB.
+
+  Expected root element:
+  <user> ... </user>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <!-- Required root object for a single user payload -->
+    <xs:element name="user">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- Must look like an email (basic regex check) -->
+                <xs:element name="email">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[^@\s]+@[^@\s]+\.[^@\s]+"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <!-- Required non-empty string -->
+                <xs:element name="first_name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="1"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <!-- Required non-empty string -->
+                <xs:element name="last_name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="1"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <!-- Required non-empty string (avatar URL/path value) -->
+                <xs:element name="avatar">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="1"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  This file is the JPA configuration entry point for the application.
+  The key element here is:
+    <persistence-unit name="paolaPU">
+
+  What "paolaPU" is:
+  - "paolaPU" is the name of a JPA persistence unit (a configuration profile).
+  - It is NOT a database schema/table name.
+  - It is NOT the H2 database file itself.
+  - It is just an identifier used by Java code to load this config at runtime.
+
+  Where "paolaPU" is used:
+  - In JpaUtil.java we call:
+      Persistence.createEntityManagerFactory("paolaPU")
+    That line tells JPA/Hibernate:
+    "Load the persistence-unit named paolaPU from persistence.xml and bootstrap it."
+
+  What this file configures:
+  - JPA provider (Hibernate).
+  - DB connection (H2 driver + JDBC URL + credentials).
+  - Which entity classes belong to this unit (UserEntity).
+  - Hibernate behavior (dialect, schema update strategy, SQL logging options).
+
+  Important clarification:
+  - H2 is a real SQL database engine (lightweight/embedded, but real DB).
+  - The DB structure (tables/columns) is generated/updated from entity mappings
+    because hibernate.hbm2ddl.auto=update is enabled.
+-->
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
              version="3.2">
-    <persistence-unit name="default">
-
+    <persistence-unit name="paolaPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.paola.paolarestapi.persistence.UserEntity</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:./data/paola;MODE=PostgreSQL;DATABASE_TO_UPPER=false"/>
+            <property name="jakarta.persistence.jdbc.user" value="sa"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
     </persistence-unit>
 </persistence>
