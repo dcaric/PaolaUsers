@@ -1,9 +1,11 @@
-package com.paola.paolarestapi.repository;
+package com.paola.paolarestapi.users.repository;
 
-import com.paola.paolarestapi.persistence.JpaUtil;
-import com.paola.paolarestapi.persistence.UserEntity;
+import com.paola.paolarestapi.users.persistence.JpaUtil;
+import com.paola.paolarestapi.users.persistence.UserEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+
+import java.util.List;
 
 /*
   UserRepository contains database write logic for UserEntity.
@@ -47,4 +49,16 @@ public class UserRepository {
             entityManager.close();
         }
     }
+
+    public List<UserEntity> findAll() {
+        EntityManager entityManager = JpaUtil.createEntityManager();
+        try {
+            return entityManager
+                    .createQuery("SELECT u FROM UserEntity u ORDER BY u.id", UserEntity.class)
+                    .getResultList();
+        } finally {
+            entityManager.close();
+        }
+    }
 }
+

@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.persistence;
+package com.paola.paolarestapi.users.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -42,3 +42,4 @@ public final class JpaUtil {
         return ENTITY_MANAGER_FACTORY.createEntityManager();
     }
 }
+

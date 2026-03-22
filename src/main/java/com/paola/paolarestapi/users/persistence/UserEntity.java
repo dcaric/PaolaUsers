@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.persistence;
+package com.paola.paolarestapi.users.persistence;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -71,3 +71,4 @@ public class UserEntity {
         this.avatar = avatar;
     }
 }
+

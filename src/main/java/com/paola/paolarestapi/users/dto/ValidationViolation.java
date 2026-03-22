@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.dto;
+package com.paola.paolarestapi.users.dto;
 
 public class ValidationViolation {
     private String field;
@@ -38,3 +38,4 @@ public class ValidationViolation {
         this.detail = detail;
     }
 }
+

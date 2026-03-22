@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.model;
+package com.paola.paolarestapi.users.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -67,3 +67,4 @@ public class UserPayload {
         this.avatar = avatar;
     }
 }
+

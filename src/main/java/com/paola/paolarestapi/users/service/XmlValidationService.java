@@ -1,7 +1,7 @@
-package com.paola.paolarestapi.service;
+package com.paola.paolarestapi.users.service;
 
-import com.paola.paolarestapi.dto.ValidationViolation;
-import com.paola.paolarestapi.model.UserPayload;
+import com.paola.paolarestapi.users.dto.ValidationViolation;
+import com.paola.paolarestapi.users.model.UserPayload;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 import org.xml.sax.ErrorHandler;
@@ -95,3 +95,4 @@ public class XmlValidationService {
         return new ValidationViolation(field, rule, exception.getMessage());
     }
 }
+

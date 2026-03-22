@@ -1,13 +1,13 @@
 package com.paola.paolarestapi;
 
-import com.paola.paolarestapi.dto.ErrorResponse;
-import com.paola.paolarestapi.dto.ValidationViolation;
-import com.paola.paolarestapi.model.UserPayload;
-import com.paola.paolarestapi.persistence.UserEntity;
-import com.paola.paolarestapi.repository.UserRepository;
-import com.paola.paolarestapi.service.JsonValidationService;
-import com.paola.paolarestapi.service.UserMapper;
-import com.paola.paolarestapi.service.XmlValidationService;
+import com.paola.paolarestapi.users.dto.ErrorResponse;
+import com.paola.paolarestapi.users.dto.ValidationViolation;
+import com.paola.paolarestapi.users.model.UserPayload;
+import com.paola.paolarestapi.users.persistence.UserEntity;
+import com.paola.paolarestapi.users.repository.UserRepository;
+import com.paola.paolarestapi.users.service.JsonValidationService;
+import com.paola.paolarestapi.users.service.UserMapper;
+import com.paola.paolarestapi.users.service.XmlValidationService;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;

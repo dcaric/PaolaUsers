@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.service;
+package com.paola.paolarestapi.users.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,8 +6,8 @@ import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
 import com.networknt.schema.ValidationMessage;
-import com.paola.paolarestapi.dto.ValidationViolation;
-import com.paola.paolarestapi.model.UserPayload;
+import com.paola.paolarestapi.users.dto.ValidationViolation;
+import com.paola.paolarestapi.users.model.UserPayload;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -73,3 +73,4 @@ public class JsonValidationService {
         return factory.getSchema(stream);
     }
 }
+

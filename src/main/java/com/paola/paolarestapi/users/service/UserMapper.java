@@ -1,8 +1,8 @@
-package com.paola.paolarestapi.service;
+package com.paola.paolarestapi.users.service;
 
-import com.paola.paolarestapi.dto.UserCreatedResponse;
-import com.paola.paolarestapi.model.UserPayload;
-import com.paola.paolarestapi.persistence.UserEntity;
+import com.paola.paolarestapi.users.dto.UserCreatedResponse;
+import com.paola.paolarestapi.users.model.UserPayload;
+import com.paola.paolarestapi.users.persistence.UserEntity;
 
 /*
   UserMapper centralizes transformation rules between API and persistence models.
@@ -40,3 +40,4 @@ public class UserMapper {
         return response;
     }
 }
+

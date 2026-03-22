@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.dto;
+package com.paola.paolarestapi.users.dto;
 
 public class UserCreatedResponse {
     private Long id;
@@ -47,3 +47,4 @@ public class UserCreatedResponse {
         this.avatar = avatar;
     }
 }
+

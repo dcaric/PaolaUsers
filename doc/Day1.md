@@ -62,9 +62,9 @@ In this project, JPA is used to:
 - Added `JpaUtil` and `UserRepository` for `EntityManager` lifecycle and transactions.
 
 **Files**
-- `src/main/java/com/paola/paolarestapi/persistence/UserEntity.java`
-- `src/main/java/com/paola/paolarestapi/persistence/JpaUtil.java`
-- `src/main/java/com/paola/paolarestapi/repository/UserRepository.java`
+ - `src/main/java/com/paola/paolarestapi/users/persistence/UserEntity.java`
+ - `src/main/java/com/paola/paolarestapi/users/persistence/JpaUtil.java`
+ - `src/main/java/com/paola/paolarestapi/users/repository/UserRepository.java`
 
 **Why**
 - Keeps persistence logic separate from endpoint logic and ensures transaction safety.
@@ -74,7 +74,7 @@ In this project, JPA is used to:
 - Added `UserPayload` annotated for both Jackson (JSON) and JAXB (XML).
 
 **File**
-- `src/main/java/com/paola/paolarestapi/model/UserPayload.java`
+- `src/main/java/com/paola/paolarestapi/users/model/UserPayload.java`
 
 **Why**
 - One shared model avoids duplicate parsing logic and keeps request formats aligned.
@@ -101,8 +101,8 @@ In this project, JPA is used to:
   - parses valid JSON into `UserPayload`
 
 **Files**
-- `src/main/java/com/paola/paolarestapi/service/XmlValidationService.java`
-- `src/main/java/com/paola/paolarestapi/service/JsonValidationService.java`
+- `src/main/java/com/paola/paolarestapi/users/service/XmlValidationService.java`
+- `src/main/java/com/paola/paolarestapi/users/service/JsonValidationService.java`
 
 **Why**
 - Validation is now reusable and isolated from JAX-RS resource code.
@@ -116,10 +116,10 @@ In this project, JPA is used to:
 - Added `UserMapper` for payload/entity/response transformations.
 
 **Files**
-- `src/main/java/com/paola/paolarestapi/dto/ValidationViolation.java`
-- `src/main/java/com/paola/paolarestapi/dto/ErrorResponse.java`
-- `src/main/java/com/paola/paolarestapi/dto/UserCreatedResponse.java`
-- `src/main/java/com/paola/paolarestapi/service/UserMapper.java`
+- `src/main/java/com/paola/paolarestapi/users/dto/ValidationViolation.java`
+- `src/main/java/com/paola/paolarestapi/users/dto/ErrorResponse.java`
+- `src/main/java/com/paola/paolarestapi/users/dto/UserCreatedResponse.java`
+- `src/main/java/com/paola/paolarestapi/users/service/UserMapper.java`
 
 **Why**
 - Keeps API responses consistent and decouples domain mapping from endpoint logic.
@@ -162,34 +162,34 @@ This file is the XML contract for incoming user payloads. It enforces required f
 ### `src/main/resources/schemas/user.schema.json`
 This file is the JSON contract (Draft-07) for the same user payload. It defines required fields, disallows unknown fields, and validates formats such as email. We need it to apply strict schema validation for JSON requests.
 
-### `src/main/java/com/paola/paolarestapi/model/UserPayload.java`
+### `src/main/java/com/paola/paolarestapi/users/model/UserPayload.java`
 This class is the transport model for incoming API data. It uses Jackson annotations for JSON field names and JAXB annotations for XML element names, so one class can parse both formats consistently. We need it to keep JSON/XML handling aligned and avoid duplicate models.
 
-### `src/main/java/com/paola/paolarestapi/persistence/UserEntity.java`
+### `src/main/java/com/paola/paolarestapi/users/persistence/UserEntity.java`
 This is the database entity mapped to the `users` table. It defines JPA annotations for primary key generation and columns. We need it because persistence must be done through an entity that JPA/Hibernate can manage.
 
-### `src/main/java/com/paola/paolarestapi/persistence/JpaUtil.java`
+### `src/main/java/com/paola/paolarestapi/users/persistence/JpaUtil.java`
 This utility creates and shares the `EntityManagerFactory` from `paolaPU`. It provides `EntityManager` instances for repository operations. We need it to centralize persistence bootstrapping and avoid duplicating JPA initialization logic.
 
-### `src/main/java/com/paola/paolarestapi/repository/UserRepository.java`
+### `src/main/java/com/paola/paolarestapi/users/repository/UserRepository.java`
 This class contains database write logic (`save`) with explicit transaction handling (`begin`, `commit`, `rollback`). It isolates persistence details from REST code. We need it so resource classes stay focused on HTTP and validation flow.
 
-### `src/main/java/com/paola/paolarestapi/service/XmlValidationService.java`
+### `src/main/java/com/paola/paolarestapi/users/service/XmlValidationService.java`
 This service validates XML payloads against `user.xsd` and unmarshals valid XML to `UserPayload` using JAXB. Validation errors are converted into structured violations. We need it to enforce XML correctness and provide readable error details.
 
-### `src/main/java/com/paola/paolarestapi/service/JsonValidationService.java`
+### `src/main/java/com/paola/paolarestapi/users/service/JsonValidationService.java`
 This service validates JSON payloads against `user.schema.json` using the schema validator library and parses valid payloads into `UserPayload` with Jackson. It maps schema failures to structured violations. We need it for strict JSON validation and safe parsing.
 
-### `src/main/java/com/paola/paolarestapi/dto/ValidationViolation.java`
+### `src/main/java/com/paola/paolarestapi/users/dto/ValidationViolation.java`
 This DTO represents one validation problem (`field`, `rule`, `detail`). It is used by both XML and JSON validation paths. We need it to return consistent machine-readable error entries to clients.
 
-### `src/main/java/com/paola/paolarestapi/dto/ErrorResponse.java`
+### `src/main/java/com/paola/paolarestapi/users/dto/ErrorResponse.java`
 This DTO wraps a high-level error message and a list of `ValidationViolation` entries. It standardizes error responses for invalid requests. We need it so clients can reliably parse and display validation failures.
 
-### `src/main/java/com/paola/paolarestapi/dto/UserCreatedResponse.java`
+### `src/main/java/com/paola/paolarestapi/users/dto/UserCreatedResponse.java`
 This DTO represents successful POST output with the saved user fields and generated `id`. It keeps API response structure independent from internal JPA entity structure. We need it to provide a clean response contract after persistence.
 
-### `src/main/java/com/paola/paolarestapi/service/UserMapper.java`
+### `src/main/java/com/paola/paolarestapi/users/service/UserMapper.java`
 This class maps data between `UserPayload`, `UserEntity`, and `UserCreatedResponse`. It centralizes transformation rules in one place. We need it to keep mapping logic out of the resource class and make future changes easier.
 
 ### `src/main/java/com/paola/paolarestapi/UserResource.java`

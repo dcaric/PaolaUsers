@@ -1,4 +1,4 @@
-package com.paola.paolarestapi.dto;
+package com.paola.paolarestapi.users.dto;
 
 import java.util.List;
 
@@ -30,3 +30,4 @@ public class ErrorResponse {
         this.violations = violations;
     }
 }
+
