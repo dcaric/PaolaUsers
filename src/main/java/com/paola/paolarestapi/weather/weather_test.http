@@ -1,0 +1,49 @@
+### Day 3 Weather + JWT quick tests
+### Use IntelliJ HTTP Client: run requests one by one.
+
+@host = http://localhost:8080
+@context = /PaolaRestApi_war_exploded
+@base = {{host}}{{context}}/api/weather
+
+### 1) Weather search (partial city)
+GET {{base}}/temperature?city=zag
+Accept: application/json
+
+###
+
+### 2) Login (issue access + refresh tokens)
+POST {{base}}/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "paola",
+  "role": "read-only"
+}
+
+###
+
+### 3) Validate token
+### Paste access token from login response:
+@accessToken = PASTE_ACCESS_TOKEN_HERE
+GET {{base}}/auth/validate?token={{accessToken}}
+Accept: application/json
+
+###
+
+### 4) Refresh token pair
+### Paste refresh token from login response:
+@refreshToken = PASTE_REFRESH_TOKEN_HERE
+POST {{base}}/auth/refresh
+Content-Type: application/json
+Accept: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+###
+
+### 5) Negative test (invalid token)
+GET {{base}}/auth/validate?token=abc
+Accept: application/json
