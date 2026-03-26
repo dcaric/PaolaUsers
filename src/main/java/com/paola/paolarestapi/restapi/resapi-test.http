@@ -1,0 +1,89 @@
+### Custom REST API + GraphQL tests
+
+@host = http://localhost:8080
+@context = /PaolaRestApi_war_exploded
+@base = {{host}}{{context}}/api/restapi
+
+### 0) Check active source switch (LOCAL or PUBLIC)
+GET {{base}}/switch
+Accept: application/json
+
+###
+
+### 1) Get users (source-aware)
+GET {{base}}/users
+Accept: application/json
+
+###
+
+### 2) Get user by id (source-aware)
+GET {{base}}/users/1
+Accept: application/json
+
+###
+
+### 3) Create user (requires full-access bearer token from weather login)
+@fullAccessToken = PASTE_FULL_ACCESS_TOKEN_HERE
+POST {{base}}/users
+Authorization: Bearer {{fullAccessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "local.user@example.com",
+  "first_name": "Local",
+  "last_name": "User",
+  "avatar": "https://reqres.in/img/faces/10-image.jpg"
+}
+
+###
+
+### 4) Update user (requires full-access bearer token)
+PUT {{base}}/users/1
+Authorization: Bearer {{fullAccessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "updated.local@example.com",
+  "first_name": "Updated",
+  "last_name": "User",
+  "avatar": "https://reqres.in/img/faces/11-image.jpg"
+}
+
+###
+
+### 5) Delete user (requires full-access bearer token)
+DELETE {{base}}/users/1
+Authorization: Bearer {{fullAccessToken}}
+Accept: application/json
+
+###
+
+### 6) GraphQL users query (read)
+POST {{base}}/graphql
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": "query { users { id email first_name last_name avatar } }"
+}
+
+###
+
+### 7) GraphQL updateUser mutation (requires full-access bearer token)
+POST {{base}}/graphql
+Authorization: Bearer {{fullAccessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": "mutation { updateUser }",
+  "variables": {
+    "id": 1,
+    "email": "graphql.updated@example.com",
+    "first_name": "Graph",
+    "last_name": "QL",
+    "avatar": "https://reqres.in/img/faces/12-image.jpg"
+  }
+}
